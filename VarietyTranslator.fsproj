@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <Content Include=".gitignore" />
+      <Content Include="README.md" />
       <Content Include="resources\varieties.db">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
