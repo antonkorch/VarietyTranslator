@@ -1,0 +1,92 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="VarietyTranslator.App"
+             RequestedThemeVariant="Light">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+        <!-- ==================== CUSTOM APPLICATION STYLES ==================== -->
+
+        <!-- Header / Toolbar Container -->
+        <Style Selector="Border.header-border">
+            <Setter Property="Background" Value="#006b43"/>
+            <Setter Property="Padding" Value="12, 8"/>
+            <Setter Property="CornerRadius" Value="0, 0, 8, 8"/>
+            <Setter Property="Margin" Value="10, 10, 10, 0"/>
+        </Style>
+
+        <!-- View Selection (Green ComboBox) -->
+        <Style Selector="ComboBox.toolbar-combo">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Background" Value="#006b43"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Target the items inside the green ComboBox specifically -->
+        <Style Selector="ComboBox.toolbar-combo ComboBoxItem">
+            <Setter Property="Background" Value="#006b43"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- Search Textbox -->
+        <Style Selector="TextBox.toolbar-search">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Action Buttons -->
+        <Style Selector="Button.toolbar-btn">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Main Column Borders (Panes) -->
+        <Style Selector="Border.pane-border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#006b43"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="CornerRadius" Value="8"/>
+        </Style>
+
+        <!-- Header Border inside the Panes -->
+        <Style Selector="Border.pane-header-border">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="CornerRadius" Value="7,7,0,0"/>
+            <Setter Property="BorderBrush" Value="#006b43"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <!-- Text styling for Pane Headers -->
+        <Style Selector="TextBlock.pane-header-text">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#333333"/>
+        </Style>
+
+        <!-- Divider/Border for rows in lists -->
+        <Style Selector="Border.item-row-border">
+            <Setter Property="BorderBrush" Value="#E5E5E5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="0,0,0,1"/>
+        </Style>
+        
+    </Application.Styles>
+</Application>

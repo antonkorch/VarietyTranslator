@@ -1,0 +1,120 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="VarietyTranslator.MainWindow"
+        Title="VarietyTranslator"
+        Width="1100" Height="700"
+        Background="White"
+        WindowStartupLocation="CenterScreen"
+        >
+       <Grid RowDefinitions="Auto, *">
+        
+        <!-- Header / Toolbar -->
+        <Border Grid.Row="0" Classes="header-border">
+            <Grid ColumnDefinitions="Auto, 150, Auto, *, Auto, Auto, Auto">
+                
+                <!-- Logo & Icon -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,15,0">
+                    <TextBlock Text="Выбор сортов" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                    <PathIcon Data="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" 
+                              Width="18" Height="18" Margin="8,0,0,0" Foreground="White"/>
+                </StackPanel>
+
+                <!-- View Selection (Green Dropdown) -->
+                <ComboBox x:Name="CompanyComboBox" Grid.Column="1" Classes="toolbar-combo" SelectedIndex="0" Margin="0,0,15,0">
+                    <ComboBoxItem Content="Все"/>
+                    <ComboBoxItem Content="Benary"/>
+                    <ComboBoxItem Content="Floranova"/>
+                    <ComboBoxItem Content="HemGenetics"/>
+                    <ComboBoxItem Content="PanAmerican"/>
+                    <ComboBoxItem Content="TAKII"/>
+                </ComboBox>
+
+                <!-- Search Field -->
+                <TextBox x:Name="SearchTextBox" Grid.Column="2" Classes="toolbar-search" PlaceholderText="Поиск" Margin="0,0,15,0">
+                    <TextBox.InnerRightContent>
+                        <Button x:Name="SearchButton"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="4"
+                                Margin="0,0,4,0"
+                                VerticalAlignment="Center"
+                                Cursor="Hand">
+                            <PathIcon Data="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" 
+                                      Width="16" Height="16" Margin="0,0,8,0" Foreground="Gray"/>
+                        </Button>
+                    </TextBox.InnerRightContent>
+                </TextBox>
+
+                <!-- Spacer -->
+                <Panel Grid.Column="3" />
+
+                <!-- Action Buttons -->
+                <!-- Transfer Button -->
+                <Button x:Name="TransferButton" Grid.Column="4" Classes="toolbar-btn" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock Text="Добавить" VerticalAlignment="Center"/>
+                        <PathIcon Data="M5 12h14M12 5l7 7-7 7" Width="14" Height="14" Foreground="Black" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Excel Export Button -->
+                <Button x:Name="ExportExcelButton" Grid.Column="5" Classes="toolbar-btn" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="X" Foreground="Green" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                        <TextBlock Text="Создать Excel" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Delete Button -->
+                <Button x:Name="DeleteButton" Grid.Column="6" Classes="toolbar-btn">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <PathIcon Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" Width="14" Height="14" Foreground="#D32F2F" VerticalAlignment="Center"/>
+                        <TextBlock Text="Удалить" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Main Workspace -->
+        <Grid Grid.Row="1" ColumnDefinitions="*, *" Margin="10, 10, 10, 10">
+            
+            <!-- Left Pane: Available Items -->
+            <Border Grid.Column="0" Classes="pane-border" Margin="0,0,5,0">
+                <Grid RowDefinitions="Auto, *">
+                    <!-- Pane Header -->
+                    <Border Grid.Row="0" Classes="pane-header-border">
+                        <TextBlock Text="Доступные сорта" Classes="pane-header-text"/>
+                    </Border>
+                    
+                    <!-- Item List Area -->
+                    <ScrollViewer Grid.Row="1" Padding="15">
+                        <StackPanel x:Name="AvailableItemsContainer" Spacing="1">
+                            <!-- Сюда код будет динамически добавлять строки -->
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- Right Pane: Selected Items -->
+            <Border Grid.Column="1" Classes="pane-border" Margin="5,0,0,0">
+                <Grid RowDefinitions="Auto, *">
+                    <!-- Pane Header -->
+                    <Border Grid.Row="0" Classes="pane-header-border">
+                        <TextBlock Text="Добавленные сорта" Classes="pane-header-text"/>
+                    </Border>
+                    
+                    <!-- Динамический контейнер для выбранных элементов -->
+                    <ScrollViewer Grid.Row="1" Padding="15">
+                        <StackPanel x:Name="SelectedItemsContainer" Spacing="1">
+                            <!-- Сюда будут переноситься строки из левой панели -->
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+            
+        </Grid>
+    </Grid>
+</Window>
