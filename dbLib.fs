@@ -65,27 +65,27 @@ module dbLib =
     let loadByIds (connectionString: string) (ids: int list) : VarietyFull list =
         let idsStr = 
             ids
+            |> List.indexed
+            |> List.map (fun (i, x) -> x, i+1)
             |> List.map string
-            |> String.concat ", "
-
-        let makeCaseBlock ids =
-            let ids = Array.ofList ids
-            let rows = System.Collections.Generic.List<string>()
-            rows.Add "ORDER BY CASE id"
-            
-            for i in 1 .. Array.length ids do
-                rows.Add ($"WHEN {ids.[i-1]} THEN {i}")
-
-            rows.Add "END;"
-            String.concat "\n" rows
+            |> String.concat ","
 
         use connection = new SqliteConnection(connectionString)
         connection.Open()
         use command = connection.CreateCommand()
         command.CommandText <-
-            $"SELECT id, sci_name, variety, color, sci_name_ru, variety_ru, color_ru 
-            FROM varieties
-            WHERE id IN ({idsStr})\n" + (makeCaseBlock ids)
+            $"WITH list(id, ord) AS (VALUES {idsStr} )
+            SELECT 
+                v.id, 
+                v.sci_name, 
+                v.variety, 
+                v.color, 
+                v.sci_name_ru, 
+                v.variety_ru, 
+                v.color_ru 
+            FROM list l
+            JOIN varieties v ON v.id = l.id
+            ORDER BY l.ord;"
 
         use reader = command.ExecuteReader()
         let list = System.Collections.Generic.List<VarietyFull>()
