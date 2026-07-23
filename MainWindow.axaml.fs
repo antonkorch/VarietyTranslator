@@ -117,7 +117,6 @@ type MainWindow() as this =
         let selectedItemsContainer = this.FindControl<StackPanel>("SelectedItemsContainer")
         let companyComboBox = this.FindControl<ComboBox>("CompanyComboBox")
         let searchButton = this.FindControl<Button>("SearchButton")
-        let transferButton = this.FindControl<Button>("TransferButton")
         let deleteButton = this.FindControl<Button>("DeleteButton")
         let exportExcelButton = this.FindControl<Button>("ExportExcelButton")
         
@@ -133,31 +132,6 @@ type MainWindow() as this =
         )
         // 3. и для клика по поисковой кнопке
         searchButton.Click.Add(fun _ -> triggerSearch())
-        
-        // 4. копирование позиций слева направо
-        transferButton.Click.Add(fun _ ->
-            if not (isNull availableItemsContainer) then
-                // Находим все строки-Border, у которых отмечен чекбокс
-                let selectedBorders = 
-                    availableItemsContainer.Children
-                    |> Seq.choose (fun child -> match child with :? Border as b -> Some b | _ -> None)
-                    |> Seq.filter (fun border ->
-                        let grid = border.Child :?> Grid
-                        let checkBox = grid.Children.[0] :?> CheckBox
-                        checkBox.IsChecked.HasValue && checkBox.IsChecked.Value
-                    )
-                    |> Seq.toList
-                
-                for border in selectedBorders do
-                    let grid = border.Child :?> Grid
-                    let dbId = border.Tag :?> int
-                    let checkBox = grid.Children.[0] :?> CheckBox
-                    let nameText = grid.Children.[1] :?> TextBlock
-                    let colorText = grid.Children.[2] :?> TextBlock
-                    let newRow = this.CreateItemRow(dbId, nameText.Text, colorText.Text)
-                    selectedItemsContainer.Children.Add(newRow)
-                    checkBox.IsChecked <- Nullable(false)               
-            )
         
         // 5. удаление выбранных элементов из правого списка
         deleteButton.Click.Add(fun _ ->
@@ -249,10 +223,10 @@ type MainWindow() as this =
         // Отрисовываем элементы на основе F# списка
         for v in varieties do
             let displayName = $"{v.SciName} {v.Variety}   "
-            let rowBorder = this.CreateItemRow(v.Id, displayName, v.Color)
+            let rowBorder = this.CreateItemRow(v.Id, displayName, v.Color, true)
             container.Children.Add(rowBorder)
             
-    member private this.CreateItemRow(dbId: int, name: string, color: string) =
+    member private this.CreateItemRow(dbId: int, name: string, color: string, isLeftList: bool) =
         let grid = Grid()
         grid.ColumnDefinitions <- ColumnDefinitions("40, Auto, Auto")
         let checkBox = CheckBox(
@@ -299,13 +273,19 @@ type MainWindow() as this =
                 border.Background <- Media.Brushes.Transparent 
             )
         
-        // Клик по всей площади строки переключает чекбокс
+        // Интерактивная обработка нажатия на строку
         border.PointerPressed.Add(fun _ ->
-            this.Focus() |> ignore
-            let current = 
-                if checkBox.IsChecked.HasValue then checkBox.IsChecked.Value
-                else false
-            checkBox.IsChecked <- Nullable(not current)
+            if isLeftList then
+                let selectedItemsContainer = this.FindControl<StackPanel>("SelectedItemsContainer")
+                let newRow = this.CreateItemRow(dbId, name, color, false)
+                selectedItemsContainer.Children.Add(newRow)
+                checkBox.IsChecked <- Nullable(false)
+            else
+                this.Focus() |> ignore
+                let current = 
+                    if checkBox.IsChecked.HasValue then checkBox.IsChecked.Value
+                    else false
+                checkBox.IsChecked <- Nullable(not current)
         )
         
         border

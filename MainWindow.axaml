@@ -52,14 +52,6 @@
                 <Panel Grid.Column="3" />
 
                 <!-- Action Buttons -->
-                <!-- Transfer Button -->
-                <Button x:Name="TransferButton" Grid.Column="4" Classes="toolbar-btn" Margin="0,0,10,0">
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock Text="Добавить" VerticalAlignment="Center"/>
-                        <PathIcon Data="M5 12h14M12 5l7 7-7 7" Width="14" Height="14" Foreground="Black" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-
                 <!-- Excel Export Button -->
                 <Button x:Name="ExportExcelButton" Grid.Column="5" Classes="toolbar-btn" Margin="0,0,10,0">
                     <StackPanel Orientation="Horizontal" Spacing="6">
@@ -90,8 +82,10 @@
                     </Border>
                     
                     <!-- Item List Area -->
-                    <ScrollViewer Grid.Row="1" Padding="15">
-                        <StackPanel x:Name="AvailableItemsContainer" Spacing="1">
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel x:Name="AvailableItemsContainer" 
+                                    Spacing="1"
+                                    Margin="15,15,15,30">
                             <!-- Сюда код будет динамически добавлять строки -->
                         </StackPanel>
                     </ScrollViewer>
@@ -107,8 +101,10 @@
                     </Border>
                     
                     <!-- Динамический контейнер для выбранных элементов -->
-                    <ScrollViewer Grid.Row="1" Padding="15">
-                        <StackPanel x:Name="SelectedItemsContainer" Spacing="1">
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel x:Name="SelectedItemsContainer" 
+                                    Spacing="1"
+                                    Margin="15,15,15,30">
                             <!-- Сюда будут переноситься строки из левой панели -->
                         </StackPanel>
                     </ScrollViewer>
