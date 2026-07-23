@@ -9,7 +9,14 @@
         Background="White"
         WindowStartupLocation="CenterScreen"
         >
-       <Grid RowDefinitions="Auto, *">
+    
+    <Window.Styles>
+        <Style Selector="ScrollBar">
+            <Setter Property="AllowAutoHide" Value="False"></Setter>
+        </Style>
+    </Window.Styles>
+    
+    <Grid RowDefinitions="Auto, *">
         
         <!-- Header / Toolbar -->
         <Border Grid.Row="0" Classes="header-border">
@@ -101,7 +108,7 @@
                     </Border>
                     
                     <!-- Динамический контейнер для выбранных элементов -->
-                    <ScrollViewer Grid.Row="1">
+                    <ScrollViewer x:Name="SelectedItemsScrollViewer" Grid.Row="1">
                         <StackPanel x:Name="SelectedItemsContainer" 
                                     Spacing="1"
                                     Margin="15,15,15,30">

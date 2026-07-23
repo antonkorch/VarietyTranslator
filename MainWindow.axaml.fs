@@ -280,6 +280,9 @@ type MainWindow() as this =
                 let newRow = this.CreateItemRow(dbId, name, color, false)
                 selectedItemsContainer.Children.Add(newRow)
                 checkBox.IsChecked <- Nullable(false)
+                
+                let scrollViewer = this.FindControl<ScrollViewer>("SelectedItemsScrollViewer")
+                Threading.Dispatcher.UIThread.Post(fun () -> scrollViewer.ScrollToEnd())
             else
                 this.Focus() |> ignore
                 let current = 
