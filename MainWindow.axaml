@@ -20,7 +20,7 @@
         
         <!-- Header / Toolbar -->
         <Border Grid.Row="0" Classes="header-border">
-            <Grid ColumnDefinitions="Auto, 150, Auto, *, Auto, Auto, Auto">
+            <Grid ColumnDefinitions="Auto, 150, Auto, *, Auto, Auto">
                 
                 <!-- Logo & Icon -->
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,15,0">
