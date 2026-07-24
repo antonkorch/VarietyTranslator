@@ -66,14 +66,6 @@
                         <TextBlock Text="Создать Excel" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-
-                <!-- Delete Button -->
-                <Button x:Name="DeleteButton" Grid.Column="6" Classes="toolbar-btn">
-                    <StackPanel Orientation="Horizontal" Spacing="6">
-                        <PathIcon Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" Width="14" Height="14" Foreground="#D32F2F" VerticalAlignment="Center"/>
-                        <TextBlock Text="Удалить" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
             </Grid>
         </Border>
 

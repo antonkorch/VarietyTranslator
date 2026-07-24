@@ -117,7 +117,6 @@ type MainWindow() as this =
         let selectedItemsContainer = this.FindControl<StackPanel>("SelectedItemsContainer")
         let companyComboBox = this.FindControl<ComboBox>("CompanyComboBox")
         let searchButton = this.FindControl<Button>("SearchButton")
-        let deleteButton = this.FindControl<Button>("DeleteButton")
         let exportExcelButton = this.FindControl<Button>("ExportExcelButton")
         
         // Общая функция для запуска поиска с актуальными значениями
@@ -133,44 +132,14 @@ type MainWindow() as this =
         // 3. и для клика по поисковой кнопке
         searchButton.Click.Add(fun _ -> triggerSearch())
         
-        // 5. удаление выбранных элементов из правого списка
-        deleteButton.Click.Add(fun _ ->
-            if not (isNull selectedItemsContainer) then
-                // Находим все Border на правой панели, у которых отмечен чекбокс
-                let itemsToRemove = 
-                    selectedItemsContainer.Children
-                    |> Seq.choose (fun child -> match child with :? Border as b -> Some b | _ -> None)
-                    |> Seq.filter (fun border ->
-                        let grid = border.Child :?> Grid
-                        let checkBox = grid.Children.[0] :?> CheckBox
-                        checkBox.IsChecked.HasValue && checkBox.IsChecked.Value                   
-                    )
-                    // Обязательно преобразуем в список, чтобы зафиксировать элементы в памяти перед удалением
-                    |> Seq.toList
-                    
-                // Удаляем выбранные строки из контейнера
-                for border in itemsToRemove do
-                    selectedItemsContainer.Children.Remove(border) |> ignore
-            )
-        
         // 6. УПРАВЛЕНИЕ С КЛАВИАТУРЫ ЧЕРЕЗ СТАНДАРТНЫЙ KEYDOWN.ADD С ДИАГНОСТИКОЙ
         this.KeyDown.Add(fun e ->
-            let searchTextBox = this.FindControl<TextBox>("SearchTextBox")
-            
-            // ОТЛАДОЧНЫЙ ВЫВОД: покажет в консоли IDE (Debug Console / Output), доходят ли вообще нажатия
-            let searchFocused = if isNull searchTextBox then false else searchTextBox.IsFocused
-            System.Diagnostics.Debug.WriteLine($"[KEYBOARD LOG] Нажата клавиша: {e.Key}, Поиск активен: {searchFocused}")
-            
-            // Если фокус в строке поиска, позволяем свободно печатать буквы Q и A
-            if not (isNull searchTextBox) && searchTextBox.IsFocused then
-                ()
-            else
-                if e.Key = Key.Up then
-                    this.MoveSelectedItems(-1) // Переместить выделенные строки вверх
-                    e.Handled <- true
-                elif e.Key = Key.Down then
-                    this.MoveSelectedItems(1) // Переместить выделенные строки вниз
-                    e.Handled <- true
+            if e.Key = Key.Up then
+                this.MoveSelectedItems(-1) // Переместить выделенные строки вверх
+                e.Handled <- true
+            elif e.Key = Key.Down then
+                this.MoveSelectedItems(1) // Переместить выделенные строки вниз
+                e.Handled <- true
         )
         // 7. ЭКСПОРТ В EXCEL ПО КЛИКУ НА КНОПКУ "СОЗДАТЬ EXCEL"
         exportExcelButton.Click.Add(fun _ ->
@@ -284,7 +253,6 @@ type MainWindow() as this =
                 let scrollViewer = this.FindControl<ScrollViewer>("SelectedItemsScrollViewer")
                 Threading.Dispatcher.UIThread.Post(fun () -> scrollViewer.ScrollToEnd())
             else
-                this.Focus() |> ignore
                 let current = 
                     if checkBox.IsChecked.HasValue then checkBox.IsChecked.Value
                     else false
